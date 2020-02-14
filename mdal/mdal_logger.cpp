@@ -1,5 +1,3 @@
-#include <iostream>
-
 #include "mdal_logger.hpp"
 
 void _standardStdout( MDAL_LogPriority prio, const char* mssg )
