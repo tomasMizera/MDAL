@@ -26,15 +26,20 @@ const char *MDAL_Version()
   return "0.4.94";
 }
 
-MDAL_Status MDAL_LastStatus()
+MDAL_Status MDAL_LastError()
 {
   return sLastStatus;
 }
 
-const char **MDAL_LastLogs()
+const char *MDAL_LastErrorDetails()
 {
-    return MDAL::Logger::instance().getLastLogs();
-//    return nullptr;
+  //TODO: Create error details string just like last status
+  return nullptr;
+}
+
+void MDAL_SetLoggerCallback( MDALLoggerCallback callback )
+{
+  MDAL::Logger::instance().setCallback( callback );
 }
 
 // helper to return string data - without having to deal with memory too much.
@@ -58,16 +63,10 @@ int MDAL_driverCount()
 
 DriverH MDAL_driverFromIndex( int index )
 {
-  LOGGING
-      MDAL::Logger::instance().clearLogs();
 
   if ( index < 0 )
   {
     sLastStatus = MDAL_Status::Err_MissingDriver;
-
-    // something like init logger
-    MDAL::Logger::instance().log(MDAL_Status::Err_MissingDriver, "error", nullptr); //true or init status
-
     return nullptr;
   }
 

@@ -37,6 +37,7 @@ extern "C" {
 #endif
 
 /* Statuses */
+// TODO: toto zmenime na MDAL_Errors
 enum MDAL_Status
 {
   None,
@@ -51,12 +52,21 @@ enum MDAL_Status
   Err_MissingDriver,
   Err_MissingDriverCapability,
   Err_FailToWriteToDisk,
-  // Warnings
+  // Warnings - TODO: tieto sa vyhodia
   Warn_UnsupportedElement,
   Warn_InvalidElements,
   Warn_ElementWithInvalidNode,
   Warn_ElementNotUnique,
   Warn_NodeNotUnique
+};
+
+/**
+ * Log levels
+ */
+enum MDAL_LogPriority
+{
+  WARN,
+  ERR
 };
 
 /**
@@ -82,18 +92,22 @@ typedef void *DatasetH;
 typedef void *DriverH;
 typedef void *AveragingMethodH;
 
+typedef void ( *MDALLoggerCallback )( MDAL_LogPriority priority, const char* mssg);
+
 //! Returns MDAL version
 MDAL_EXPORT const char *MDAL_Version();
 
-//! Returns last status message
-MDAL_EXPORT MDAL_Status MDAL_LastStatus();
+//TODO:
+//! Returns last error code
+MDAL_EXPORT MDAL_Status MDAL_LastError();
 
-// LastError, LastErrorDetails
-// cez api dat moznost vypisovat logy inam
-// defaultne vypisovat na stderr
+//TODO:
+//! Returns detail about last error
+MDAL_EXPORT const char *MDAL_LastErrorDetail();
 
-//! Returns logs from previous API call
-MDAL_EXPORT const char **MDAL_LastLogs();
+//TODO:
+//! Define own output for logger
+MDAL_EXPORT void MDAL_SetLoggerCallback( MDALLoggerCallback callback );
 
 ///////////////////////////////////////////////////////////////////////////////////////
 /// DRIVERS

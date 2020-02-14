@@ -2,26 +2,38 @@
 
 #include "mdal_logger.hpp"
 
-void MDAL::Logger::log(MDAL_Status status, std::string message, std::string driverName, bool firstLog)
+void _standardStdout( MDAL_LogPriority prio, const char* mssg )
 {
-  if (firstLog) clearLogs();
-
-  lastLogs.push_back(MDAL::LogEntry(status, message, driverName));
-  std::cout << "Logged message: " << message << std::endl;
+  switch ( prio )
+  {
+    case WARN:
+      std::cout << "WARNING: " << mssg << std::endl;
+    case ERR:
+      std::cerr << "ERROR: " << mssg << std::endl;
+  }
 }
 
-const char** MDAL::Logger::getLastLogs()
+void MDAL::Logger::setCallback( MDALLoggerCallback loggerCallback )
 {
-  // build return message from inner vector
-  {}
-
-  // clear logs array
-  clearLogs();
-
-  return nullptr;
+  mLoggerCallback = loggerCallback;
 }
 
-void MDAL::Logger::clearLogs()
+void MDAL::Logger::warn( std::string mssg )
 {
-  lastLogs.clear();
+  log( MDAL_LogPriority::WARN, mssg );
+}
+
+void MDAL::Logger::error( std::string mssg )
+{
+  log( MDAL_LogPriority::ERR, mssg );
+}
+
+MDAL::Logger::Logger()
+{
+  setCallback( &_standardStdout );
+}
+
+void MDAL::Logger::log(MDAL_LogPriority priority, std::string mssg)
+{
+  mLoggerCallback( priority, mssg.c_str() );
 }
