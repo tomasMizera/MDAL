@@ -13,6 +13,7 @@
 #include "mdal_driver_manager.hpp"
 #include "mdal_data_model.hpp"
 #include "mdal_utils.hpp"
+#include "mdal_logger.hpp"
 
 #define NODATA std::numeric_limits<double>::quiet_NaN()
 
@@ -28,6 +29,12 @@ const char *MDAL_Version()
 MDAL_Status MDAL_LastStatus()
 {
   return sLastStatus;
+}
+
+const char **MDAL_LastLogs()
+{
+    return MDAL::Logger::instance().getLastLogs();
+//    return nullptr;
 }
 
 // helper to return string data - without having to deal with memory too much.
