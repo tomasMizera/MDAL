@@ -37,8 +37,8 @@ extern "C" {
 #endif
 
 /* Statuses */
-// TODO: toto zmenime na MDAL_Errors
-enum MDAL_Status
+// TODO: toto zmenime na MDAL_ErrorCodes
+enum MDAL_ErrorCodes
 {
   None,
   // Errors

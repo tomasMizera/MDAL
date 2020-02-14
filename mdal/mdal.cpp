@@ -26,11 +26,13 @@ const char *MDAL_Version()
   return "0.4.94";
 }
 
+//TODO:
 MDAL_Status MDAL_LastError()
 {
   return sLastStatus;
 }
 
+//TODO:
 const char *MDAL_LastErrorDetails()
 {
   //TODO: Create error details string just like last status
