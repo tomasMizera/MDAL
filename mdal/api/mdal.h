@@ -88,6 +88,10 @@ MDAL_EXPORT const char *MDAL_Version();
 //! Returns last status message
 MDAL_EXPORT MDAL_Status MDAL_LastStatus();
 
+// LastError, LastErrorDetails
+// cez api dat moznost vypisovat logy inam
+// defaultne vypisovat na stderr
+
 //! Returns logs from previous API call
 MDAL_EXPORT const char **MDAL_LastLogs();
 

@@ -58,9 +58,16 @@ int MDAL_driverCount()
 
 DriverH MDAL_driverFromIndex( int index )
 {
+  LOGGING
+      MDAL::Logger::instance().clearLogs();
+
   if ( index < 0 )
   {
     sLastStatus = MDAL_Status::Err_MissingDriver;
+
+    // something like init logger
+    MDAL::Logger::instance().log(MDAL_Status::Err_MissingDriver, "error", nullptr); //true or init status
+
     return nullptr;
   }
 
