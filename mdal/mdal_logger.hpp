@@ -5,24 +5,41 @@
 
 #include "mdal.h"
 
-/**
- * Options for logger:
- */
-
-
 // driver napise warning ked nedokaze nacitat a potom error ze nejde otvorit ziaden
 // pridat nazov suboru do warningu
 
 namespace MDAL {
 
-//  struct LogEntry {
-//    LogEntry( MDAL_Status s, std::string m, std::string d ) : status( s ), message( m ), driverName( d ) {}
+/*  struct MDAL_Error {
+    MDAL_Error( MDAL_Status st, std::string mssg ): errCode( st ), errMessage( mssg ) {}
 
-//    MDAL_Status status;
-//    std::string message;
-//    std::string driverName;
-//  };
+    MDAL_Status errCode;
+    std::string errMessage;
+  };*/
 
+  namespace Logge {
+    //set last status
+    //set callback
+
+
+    // Idealne: nechat API tak ako bolo + pridat callback
+    // podla env variable bud vypisovat alebo nie
+
+    void _handleLog( MDAL_LogPriority prio, MDAL_Status statusCode, std::string mssg )
+    {
+      switch ( prio ) {
+        case ERR:
+          MDAL::Logger::instance().error( statusCode, mssg );
+          sLastStatus = statusCode;
+          break;
+
+        case WARN:
+          MDAL::Logger::instance().warn( mssg );
+          break;
+      }
+    }
+
+  }
   class Logger
   {
 
@@ -30,6 +47,7 @@ namespace MDAL {
     static Logger& instance()
     {
       static Logger instance;
+//      if ( clearLastError ) instance.sLastError = MDAL_Error( MDAL_Status::None, "" );
       return instance;
     }
 
@@ -37,12 +55,14 @@ namespace MDAL {
     Logger operator=( const Logger & ) = delete;
 
     void setCallback( MDALLoggerCallback loggerCallback );
-    void warn( std::string );
-    void error( std::string );
+    void warn( std::string mssg );
+    void error( MDAL_Status status, std::string mssg );
+
 
   private:
     Logger();
     void log( MDAL_LogPriority priority, std::string message );
+//    MDAL_Error sLastError;
 
     MDALLoggerCallback mLoggerCallback = nullptr;
   };

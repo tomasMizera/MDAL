@@ -38,7 +38,7 @@ extern "C" {
 
 /* Statuses */
 // TODO: toto zmenime na MDAL_ErrorCodes
-enum MDAL_ErrorCodes
+enum MDAL_Status
 {
   None,
   // Errors
@@ -52,6 +52,7 @@ enum MDAL_ErrorCodes
   Err_MissingDriver,
   Err_MissingDriverCapability,
   Err_FailToWriteToDisk,
+
   // Warnings - TODO: tieto sa vyhodia
   Warn_UnsupportedElement,
   Warn_InvalidElements,

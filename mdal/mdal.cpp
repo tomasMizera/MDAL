@@ -32,6 +32,10 @@ MDAL_Status MDAL_LastError()
   return sLastStatus;
 }
 
+/**
+  * ZASA NASTAVA PROBLEM - ERROR MOZE BYT Z PREDOSLEHO API VOLANIA
+  */
+
 //TODO:
 const char *MDAL_LastErrorDetails()
 {
@@ -88,7 +92,8 @@ bool MDAL_DR_meshLoadCapability( DriverH driver )
 {
   if ( !driver )
   {
-    sLastStatus = MDAL_Status::Err_MissingDriver;
+//    sLastStatus = MDAL_Status::Err_MissingDriver;
+    MDAL::Logger::instance().error(MDAL_Status::Err_MissingDriver, "nastala chyba");
     return false;
   }
 
@@ -186,6 +191,7 @@ void MDAL_SaveMesh( MeshH mesh, const char *meshFile, const char *driver )
   if ( !d )
   {
     sLastStatus = MDAL_Status::Err_MissingDriver;
+    MDAL::Logger::error(MDAL_Status::Err_MissingDriver);
     return;
   }
 
